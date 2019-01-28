@@ -29,7 +29,6 @@ const controllers = {
     update: ({ body, params }, res) => {
 
         const existId = lists.some(list => list.id == params.id)
-
         if (existId) {
             const dataUpdated = lists.map(list => {
                 return (params.id == list.id) ? body : list;
@@ -37,10 +36,24 @@ const controllers = {
 
             res.status(200).json({ data: dataUpdated })
         } else {
+
             console.log("It doesn't exist ")
+        }
+    },
+    delete: ({ params }, res) => {
+        const isIdLists = lists.some(list => list.id == params.id && JSON.stringify(list.cards) == '{}')
+
+        if (isIdLists) {
+            var listDate = lists.filter(list => list.id != params.id);
+
+            res.json({ data: listDate });
+        } else {
+            console.log("The id doesn't exist");
+            res.status(200).json({ data: "The id doesn't exist or Has cards " })
         }
     }
 }
+
 
 
 
